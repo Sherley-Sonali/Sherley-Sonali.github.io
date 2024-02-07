@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+    <head>
+        <script src="iss.js"></script>
+        <link rel="stylesheet" href="blog.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap"/>
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <title>Blogs</title>
+        <meta charset="UTF-8"/>        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    </head>
+
+    <body>
+     
+           <section>
+        <div style="margin-top: 50px;"></div>
+        <div class="blog">
+            <p>
+Blog 1: Introduction to Web development<br><br>
+
+Welcome to the world of web development! <br><br>
+If you're new to coding or just curious about how websites are built,<br> 
+you're in the right place. In this blog, we'll explore the basics of web development,<br> 
+including the technologies involved and how they work together.<br>
+            </p>
+            <div class="like_C">Likes: <span id="likeCount1">0</span></div>
+            <div style="margin-right:20px"></div>
+            <div class="like_c">
+            <button onclick="incrementLikes('likeCount1')">Like</button>
+        </div><div style="margin-right:20px"></div>
+
+        <div class="like_C">DisLikes: <span id="dislikeCount1">0</span></div>
+        <div style="margin-right:20px"></div>
+        <div class="like_c">
+        <button onclick="decrementLikes('dislikeCount1')">DisLike</button>
+    </div><div style="margin-right:20px"></div>
+
+            <div class="comment_s">
+                <h3>Comments</h3>
+                <textarea id="comments1" rows="4" placeholder="Leave a comment"></textarea>
+                <button style="font-family: 'Playfair Display';" onclick="saveComment('comments1')">Add Comment</button>
+                <div id="displayComments1" class="comments-preview"></div>
+        </div>
+        <div style="margin-bottom: 30px"></div>
+    </section>     
+        <div style="margin-bottom: 100px;"></div>
+    <section>
+        <div class="blog">
+            <p>
+Blog 2: Tips for Effective Coding<br><br>
+
+Whether you're a beginner or an experienced coder, adopting effective coding practices is essential. <br>
+In this blog, we'll explore some tips and best practices that can enhance your coding skills <br>
+and make your code more readable and maintainable.<br>
+            </p>
+            <div class="like_C">Likes: <span id="likeCount2">0</span></div>
+            <div style="margin-right:20px"></div>
+            <div class="like_c"><button onclick="incrementLikes('likeCount2')">Like</button></div>
+            <div style="margin-right:20px"></div>
+            <div class="like_C">DisLikes: <span id="dislikeCount2">0</span></div>
+            <div style="margin-right:20px"></div>
+            <div class="like_c">
+            <button onclick="decrementLikes('dislikeCount2')">DisLike</button>
+        </div><div style="margin-right:20px"></div>
+            <div class="comment_s">
+                <h3>Comments</h3>
+                <textarea id="comments2" rows="4" placeholder="Leave a comment"></textarea>
+                <button style="font-family: 'Playfair Display';" onclick="saveComment('comments2')">Add Comment</button>
+                <div id="displayComments2" class="comments-preview"></div>
+        </div>
+        
+        <div style="margin-bottom: 30px"></div>
+    <section>
+        <script>
+        loadLikesAndComments('likeCount1','dislikeCount1', 'comments1');
+       loadLikesAndComments('likeCount2','dislikeCount2', 'comments2');
+
+        function incrementLikes(likeCountId) {
+            let currentLikes = parseInt(localStorage.getItem(likeCountId)) || 0;
+            currentLikes++;
+            document.getElementById(likeCountId).textContent = currentLikes;
+            localStorage.setItem(likeCountId, currentLikes);
+        }
+        function decrementLikes(dislikeCountId) {
+            let currentdisLikes = parseInt(localStorage.getItem(dislikeCountId)) || 0;
+            currentdisLikes++;
+            document.getElementById(dislikeCountId).textContent = currentdisLikes;
+            localStorage.setItem(dislikeCountId, currentdisLikes);
+        }
+
+        function saveComment(commentId) {
+            let commentInput = document.getElementById(commentId);
+            let div = document.getElementById('displayComments' + commentId.slice(-1));
+            let existingComments = JSON.parse(localStorage.getItem(commentId)) || [];
+            existingComments.push(commentInput.value);
+
+            localStorage.setItem(commentId, JSON.stringify(existingComments));
+
+            displayComments(commentId, div);
+        }
+
+        function loadLikesAndComments(likeCountId,dislikeCountId, commentId) {
+
+            let likes = localStorage.getItem(likeCountId);
+            if (likes !== null) {
+                document.getElementById(likeCountId).textContent = likes;
+            }
+            let dislikes = localStorage.getItem(dislikeCountId);
+            if (dislikes !== null) {
+                document.getElementById(dislikeCountId).textContent = dislikes;
+            }
+
+
+            let div = document.getElementById('displayComments' + commentId.slice(-1));
+            displayComments(commentId, div);
+         }
+
+        function displayComments(commentId, div) {
+
+            let comments = JSON.parse(localStorage.getItem(commentId)) || [];
+
+            div.innerHTML = '';
+            comments.forEach(function (comment, index) {
+                div.innerHTML += `<p>Comment ${index + 1}: "${comment}"</p>`;
+            });
+        }
+       </script>
+    </body>
+</html>
